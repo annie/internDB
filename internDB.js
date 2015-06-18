@@ -3,6 +3,15 @@
 Reviews = new Mongo.Collection('reviews');
 
 if (Meteor.isClient) {
+  Session.set('filtered', 'no');
+
+  Template.search.events({
+    'submit': function (event) {
+      event.preventDefault();
+      Session.set('filtered', 'yes');
+      Session.set('searchKey', event.target.searchKey.value);
+    }
+  });
 
   Template.addReview.events({
     'submit form': function (event) {
@@ -17,10 +26,14 @@ if (Meteor.isClient) {
 
   Template.reviews.helpers({
     reviewsList: function () {
-      return Reviews.find();
+      if (Session.get("filtered") === "yes") {
+        var key = Session.get('searchKey');
+        return Reviews.find({company: key});
+      } else {
+        return Reviews.find();
+      }
     }
-  })
-
+  });
 }
 
 if (Meteor.isServer) {

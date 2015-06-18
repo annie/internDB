@@ -12,12 +12,14 @@
 </body>
 
 <template name="search">
-  <input type="text" name="searchReviews" placeholder="Enter a company or job">
-  <input type="submit" value="Search">
+  <form>
+    <input type="text" name="searchKey" placeholder="Enter a company or job">
+    <input type="submit" value="Search">
+  </form>
 </template>
 
 <template name="addReview">
-  <form id="submitReview">
+  <form>
     <p>Write a review!</p>
     <input type="text" name="company" placeholder="Company">
     <input type="text" name="job" placeholder="Job Title">
