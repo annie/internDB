@@ -3,19 +3,40 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>InternDB</h1>
 
-  {{> hello}}
-  {{> homepage}}
+  {{> search}}
+  {{> addReview}}
+  {{> reviews}}
 
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="search">
+  <input type="text" name="searchReviews" placeholder="Enter a company or job">
+  <input type="submit" value="Search">
 </template>
 
-<template name="homepage">
-  <button>Change name</button>
-  <p>{{name}}</p>
+<template name="addReview">
+  <form id="submitReview">
+    <p>Write a review!</p>
+    <input type="text" name="company" placeholder="Company">
+    <input type="text" name="job" placeholder="Job Title">
+    <input type="text" name="review" placeholder="Review">
+    <input type="submit" value="Submit">
+  </form>
 </template>
+
+<template name="reviews">
+  <p>Reviews</p>
+  <ul>
+    {{#each reviewsList}}
+      <li><ul style="list-style-type: none">
+        <li><b>Company:</b> {{company}}</li>
+        <li><b>Job:</b> {{job}}</li>
+        <li><b>Review:</b> {{review}}</li>
+      </ul></li>
+      <br>
+    {{/each}}
+  </ul>
+</template>
+

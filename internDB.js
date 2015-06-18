@@ -1,38 +1,26 @@
+// internDB.js
+
+Reviews = new Mongo.Collection('reviews');
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
-  Session.setDefault('name', 'InternDB')
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
+  Template.addReview.events({
+    'submit form': function (event) {
+      event.preventDefault();
+      Reviews.insert({
+        company: event.target.company.value,
+        job: event.target.job.value,
+        review: event.target.review.value
+      });
     }
   });
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
-
-  Template.homepage.helpers({
-    name: function () {
-      return Session.get('name');
+  Template.reviews.helpers({
+    reviewsList: function () {
+      return Reviews.find();
     }
   })
 
-  Template.homepage.events({
-    'click button': function () {
-      if (Session.get('name') === 'InternDB') { 
-        Session.set('name', 'made by CORE Impulse');
-        console.log(Session.get('name'));
-      } else {
-        Session.set('name', 'InternDB');
-        console.log(Session.get('name'));
-      }
-    }
-  })
 }
 
 if (Meteor.isServer) {
