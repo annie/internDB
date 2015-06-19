@@ -1,6 +1,8 @@
 // internDB.js
 
 Reviews = new Mongo.Collection('reviews');
+Companies = new Mongo.Collection('companies');
+Jobs = new Mongo.Collection('jobs');
 
 if (Meteor.isClient) {
   Session.set('filtered', 'no');
@@ -10,10 +12,14 @@ if (Meteor.isClient) {
       event.preventDefault();
       Session.set('filtered', 'yes');
       Session.set('searchKey', event.target.searchKey.value);
+      document.getElementById("searchForm").reset();
     }
   });
 
   Template.addReview.events({
+    'button click': function () {
+      var company = prompt("What company did you work at?");
+    },
     'submit form': function (event) {
       event.preventDefault();
       Reviews.insert({
@@ -21,6 +27,13 @@ if (Meteor.isClient) {
         job: event.target.job.value,
         review: event.target.review.value
       });
+      Companies.insert({
+        company: event.target.company.value
+      });
+      Jobs.insert({
+        job: event.target.job.value
+      })
+      document.getElementById("reviewForm").reset();
     }
   });
 
@@ -28,7 +41,7 @@ if (Meteor.isClient) {
     reviewsList: function () {
       if (Session.get("filtered") === "yes") {
         var key = Session.get('searchKey');
-        return Reviews.find({company: key});
+        return Reviews.find({company: {}});
       } else {
         return Reviews.find();
       }
