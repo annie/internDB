@@ -3,16 +3,17 @@
 </head>
 
 <body>
-  <h1>InternDB</h1>
-
-  {{> search}}
-  {{> addReview}}
-  {{> reviews}}
-
+  <div class="container">
+    <h1>InternDB</h1>
+    {{> search}}
+    {{> addReview}}
+    <br>
+    {{> reviews}}
+  </div>
 </body>
 
 <template name="search">
-  <form>
+  <form class="searchForm">
     <input type="text" name="searchKey" placeholder="Enter a company or job">
     <input type="submit" value="Search">
   </form>
@@ -20,7 +21,7 @@
 
 <template name="addReview">
   <form>
-    <p>Write a review!</p>
+    <p><i>Write a review!</i></p>
     <input type="text" name="company" placeholder="Company">
     <input type="text" name="job" placeholder="Job Title">
     <input type="text" name="review" placeholder="Review">
@@ -29,13 +30,13 @@
 </template>
 
 <template name="reviews">
-  <p>Reviews</p>
+  <h3>Reviews</h3>
   <ul>
     {{#each reviewsList}}
       <li><ul style="list-style-type: none">
-        <li><b>Company:</b> {{company}}</li>
-        <li><b>Job:</b> {{job}}</li>
-        <li><b>Review:</b> {{review}}</li>
+        <li><u>Company</u> {{company}}</li>
+        <li><u>Job:</u> {{job}}</li>
+        <li><u>Review:</u> {{review}}</li>
       </ul></li>
       <br>
     {{/each}}

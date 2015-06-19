@@ -1,5 +1,93 @@
 /* CSS declarations go here */
 
-button {
-    background-color: turquoise;
+body {
+  font-family: "Proxima Nova";
+  background-attachment: fixed;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0;
+  margin: 0;
+
+  font-size: 14px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 100%;
+  background: white;
+  padding: 30px;
+}
+
+header {
+  background: #d2edf4;
+  background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
+  padding: 20px 15px 15px 15px;
+  position: relative;
+}
+
+#login-buttons {
+  display: block;
+}
+
+h1 {
+  font-size: 1.5em;
+  margin: 0;
+  margin-bottom: 10px;
+  display: inline-block;
+  margin-right: 1em;
+}
+
+form {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  position: relative;
+}
+
+input {
+  font-family: "Proxima Nova";
+}
+
+.searchForm input {
+  box-sizing: border-box;
+  padding: 10px 0;
+  background: transparent;
+  border: none;
+/*  width: 100%;*/
+  padding-right: 10px;
+  font-size: 1em;
+}
+
+.searchForm input:focus{
+  outline: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+li {
+  position: relative;
+  list-style: none;
+  border-bottom: #eee solid 1px;
+}
+
+li .text {
+  margin-left: 10px;
+}
+
+li.private {
+  background: #eee;
+  border-color: #ddd;
+}
+
+.toggle-private {
+  margin-left: 5px;
 }
