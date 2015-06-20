@@ -10,8 +10,13 @@ if (Meteor.isClient) {
   Template.search.events({
     'submit': function (event) {
       event.preventDefault();
-      Session.set('filtered', 'yes');
-      Session.set('searchKey', event.target.searchKey.value);
+      var searchKey = event.target.searchKey.value;
+      if (searchKey !== "") {
+        Session.set('filtered', 'yes');
+        Session.set('searchKey', event.target.searchKey.value);
+      } else {
+        Session.set('filtered', 'no');
+      }
       document.getElementById("searchForm").reset();
     }
   });
@@ -41,7 +46,7 @@ if (Meteor.isClient) {
     reviewsList: function () {
       if (Session.get("filtered") === "yes") {
         var key = Session.get('searchKey');
-        return Reviews.find({company: {}});
+        return Reviews.find({company: key});
       } else {
         return Reviews.find();
       }

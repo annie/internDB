@@ -1,5 +1,5 @@
 <head>
-  <title>internDB</title>
+  <title>InternDB</title>
 </head>
 
 <body>
@@ -20,12 +20,12 @@
 </template>
 
 <template name="addReview">
-  <form id="reviewForm">
-    <button>Write a review!</button>
-<!--     <input type="text" name="company" placeholder="Company">
+  <button>Submit a review!</button>
+  <form class="reviewForm">
+    <input type="text" name="company" placeholder="Company">
     <input type="text" name="job" placeholder="Job Title">
     <input type="text" name="review" placeholder="Review">
-    <input type="submit" value="Submit"> -->
+    <input type="submit" value="Submit">
   </form>
 </template>
 
@@ -35,7 +35,7 @@
     {{#each reviewsList}}
       <div class="review">
         <li><ul style="list-style-type: none">
-          <li><a href="#">{{company}}</a></li>
+          <li class="review-title">{{company}}</li>
           <li><u>Job:</u> {{job}}</li>
           <li><u>Review:</u> {{review}}</li>
         </ul></li>

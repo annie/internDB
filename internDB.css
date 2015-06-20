@@ -3,7 +3,7 @@
 body {
   font-family: "Proxima Nova";
   color: #4D4D4D;
-  background: #F2FAFF;
+/*  background: #F2FAFF;*/
   background-attachment: fixed;
 
   position: absolute;
@@ -25,23 +25,16 @@ body {
   padding: 30px;
 }
 
-header {
-  background: #d2edf4;
-  background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
-  padding: 20px 15px 15px 15px;
-  position: relative;
-}
-
-#login-buttons {
-  display: block;
-}
-
 h1 {
-  font-size: 1.5em;
+  font-size: 1.8em;
   margin: 0;
   margin-bottom: 10px;
   display: inline-block;
   margin-right: 1em;
+}
+
+h3 {
+  font-size: 1.3em;
 }
 
 form {
@@ -54,19 +47,33 @@ input {
   font-family: "Proxima Nova";
 }
 
-.searchForm input {
-  box-sizing: border-box;
-  padding: 10px 0;
-  background: transparent;
-  border: none;
-/*  width: 100%;*/
-  padding-right: 10px;
+button {
+  font-family: "Proxima Nova";
+  font-size: 1em;
+  padding: 2px;
+}
+
+form input[type="text"] {
+  font-family: "Proxima Nova";
+  padding: 2px;
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+
+form input[type="submit"] {
+  font-family: "Proxima Nova";
+  padding: 2px;
   font-size: 1em;
 }
 
-.searchForm input:focus{
-  outline: 0;
-}
+/*
+
+.reviewForm input {
+  font-family: "Proxima Nova";
+  padding: 2px;
+  font-size: 1em;
+  margin-bottom: 15px;
+}*/
 
 ul {
   margin: 0;
@@ -82,16 +89,17 @@ li .text {
   margin-left: 10px;
 }
 
-li.private {
-  background: #eee;
-  border-color: #ddd;
-}
-
 div .review {
   background: white;
-  border-radius: 10px;
+  border: 2px solid #F5F5F5;
+  border-radius: 8px;
   padding: 15px;
   margin-bottom: 20px;
+}
+
+.review-title {
+  font-size: 1.2em;
+  color: #86BEE3;
 }
 
 .toggle-private {
