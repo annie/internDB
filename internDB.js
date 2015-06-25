@@ -5,10 +5,10 @@ Companies = new Mongo.Collection('companies');
 Jobs = new Mongo.Collection('jobs');
 
 if (Meteor.isClient) {
-  Session.set('filtered', 'no');
+  Session.setDefault('filtered', 'no');
 
   Template.search.events({
-    'submit': function (event) {
+    'submit form': function (event) {
       event.preventDefault();
       var searchKey = event.target.searchKey.value;
       if (searchKey !== "") {
@@ -17,30 +17,30 @@ if (Meteor.isClient) {
       } else {
         Session.set('filtered', 'no');
       }
-      document.getElementById("searchForm").reset();
+      document.getElementById("search-form").reset();
     }
   });
 
-  Template.addReview.events({
-    'button click': function () {
-      var company = prompt("What company did you work at?");
-    },
-    'submit form': function (event) {
-      event.preventDefault();
-      Reviews.insert({
-        company: event.target.company.value,
-        job: event.target.job.value,
-        review: event.target.review.value
-      });
-      Companies.insert({
-        company: event.target.company.value
-      });
-      Jobs.insert({
-        job: event.target.job.value
-      })
-      document.getElementById("reviewForm").reset();
-    }
-  });
+  // Template.addReview.events({
+  //   'button click': function () {
+  //     var company = prompt("What company did you work at?");
+  //   },
+  //   'submit form': function (event) {
+  //     event.preventDefault();
+  //     Reviews.insert({
+  //       company: event.target.company.value,
+  //       job: event.target.job.value,
+  //       review: event.target.review.value
+  //     });
+  //     Companies.insert({
+  //       company: event.target.company.value
+  //     });
+  //     Jobs.insert({
+  //       job: event.target.job.value
+  //     })
+  //     document.getElementById("reviewForm").reset();
+  //   }
+  // });
 
   Template.reviews.helpers({
     reviewsList: function () {

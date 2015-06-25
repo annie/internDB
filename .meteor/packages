@@ -8,5 +8,5 @@ meteor-platform
 autopublish
 insecure
 jquery
-linto:jquery-ui
 less
+twbs:bootstrap
