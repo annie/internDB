@@ -4,11 +4,9 @@
 </head>
 
 <body>
-  {{> nav}}
+    {{> nav}}
   <div class="container">
-    <div class="col-md-10 col-md-offset-1">
-      <h2><b>Welcome to Columbia's Internship Database!</b></h2>
-    </div>
+
     {{> search}}
     {{> reviews}}
   </div>
@@ -24,39 +22,56 @@
       <ul class="nav navbar-nav">
         <li><a href="#">Companies <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Jobs</a></li>
+        <li><a href="#">About</a></li>
         <li><button class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#submit-review">Submit a review</button></li>
       </ul>
     </div>
   </div>
   </nav>
+  {{> reviewModal}}
 </template>
 
-<template name="submit">
+<template name="reviewModal">
   <div id="submit-review" class="modal fade col-md-8 col-md-offset-2" role="dialog">
     <div class="model-dialog">
-
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Submit a review</h4>
+          <h4 class="modal-title">Write a review</h4>
         </div>
         <div class="modal-body">
-          <p>text text text</p>
+          <form id="review-form">
+            <div class="form-group">
+              <label for="inputCompany">Company</label>
+              <input type="text" class="form-control" name="inputCompany" placeholder="Company">
+            </div>
+            <div class="form-group">
+              <label for="inputJob">Job</label>
+              <input type="text" class="form-control" name="inputJob" placeholder="Job">
+            </div>
+            <div class="form-group">
+              <label for="inputReview">Review</label>
+              <textarea class="form-control" name="inputReview" rows="3" placeholder="Write your review here"></textarea>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="btn-submit-review" type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <template name="search">
   <div class="col-md-6 col-md-offset-3" id="main-search">
-    <form id="search-form">
-      <input type="text" class="form-control" name="searchKey" placeholder="Search for a company or job">
-      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+    <form id="search-form" class="form-inline">
+      <div class="form-group">
+        <input type="text" class="form-control" name="searchKey" placeholder="Search for a company or job">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+      </div>
     </form>
   </div>
 </template>

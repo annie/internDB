@@ -1,25 +1,32 @@
 // internDB.js
 
 Reviews = new Mongo.Collection('reviews');
-Companies = new Mongo.Collection('companies');
-Jobs = new Mongo.Collection('jobs');
 
 if (Meteor.isClient) {
   Session.setDefault('filtered', 'no');
+  Session.setDefault('showModal', 'no');
 
-  Template.search.events({
-    'submit form': function (event) {
-      event.preventDefault();
-      var searchKey = event.target.searchKey.value;
-      if (searchKey !== "") {
-        Session.set('filtered', 'yes');
-        Session.set('searchKey', event.target.searchKey.value);
-      } else {
-        Session.set('filtered', 'no');
-      }
-      document.getElementById("search-form").reset();
+  Template.nav.events({
+    'click #show-modal': function () {
+      Session.set('showModal', 'yes');
     }
-  });
+  })
+
+  Template.reviewModal.events({
+    'click #btn-submit-review': function () {
+      $("#review-form").submit();
+    },
+    'submit form': function (event) {
+      console.log("submitted");
+      event.preventDefault();
+      Reviews.insert({
+        company: event.target.inputCompany.value,
+        job: event.target.inputJob.value,
+        review: event.target.inputReview.value
+      });
+      document.getElementById("review-form").reset();
+    }
+  })
 
   // Template.addReview.events({
   //   'button click': function () {
@@ -42,6 +49,31 @@ if (Meteor.isClient) {
   //   }
   // });
 
+  Template.search.events({
+    'submit form': function (event) {
+      event.preventDefault();
+      var searchKey = event.target.searchKey.value;
+      if (searchKey !== "") {
+        Session.set('filtered', 'yes');
+        Session.set('searchKey', event.target.searchKey.value);
+      } else {
+        Session.set('filtered', 'no');
+      }
+      document.getElementById("search-form").reset();
+    },
+    'button click': function (event) {
+      event.preventDefault();
+      var searchKey = event.target.searchKey.value;
+      if (searchKey !== "") {
+        Session.set('filtered', 'yes');
+        Session.set('searchKey', event.target.searchKey.value);
+      } else {
+        Session.set('filtered', 'no');
+      }
+      document.getElementById("search-form").reset();
+    }
+  });
+
   Template.reviews.helpers({
     reviewsList: function () {
       if (Session.get("filtered") === "yes") {
@@ -56,6 +88,6 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    console.log("hello server");
+    // Meteor.methods
   });
 }
