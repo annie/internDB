@@ -28,27 +28,6 @@ if (Meteor.isClient) {
     }
   })
 
-  // Template.addReview.events({
-  //   'button click': function () {
-  //     var company = prompt("What company did you work at?");
-  //   },
-  //   'submit form': function (event) {
-  //     event.preventDefault();
-  //     Reviews.insert({
-  //       company: event.target.company.value,
-  //       job: event.target.job.value,
-  //       review: event.target.review.value
-  //     });
-  //     Companies.insert({
-  //       company: event.target.company.value
-  //     });
-  //     Jobs.insert({
-  //       job: event.target.job.value
-  //     })
-  //     document.getElementById("reviewForm").reset();
-  //   }
-  // });
-
   Template.search.events({
     'submit form': function (event) {
       event.preventDefault();
