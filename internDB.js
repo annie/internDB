@@ -3,51 +3,33 @@
 Reviews = new Mongo.Collection('reviews');
 
 if (Meteor.isClient) {
-  Session.setDefault('filtered', 'no');
-  Session.setDefault('showModal', 'no');
-
-  Template.nav.events({
-    'click #show-modal': function () {
-      Session.set('showModal', 'yes');
-    }
-  })
+  Session.setDefault('filtered', false);
 
   Template.reviewModal.events({
     'click #btn-submit-review': function () {
       $("#review-form").submit();
     },
     'submit form': function (event) {
-      console.log("submitted");
       event.preventDefault();
-      Reviews.insert({
+      var newReview = {
         company: event.target.inputCompany.value,
         job: event.target.inputJob.value,
         review: event.target.inputReview.value
-      });
+      };
+      Meteor.call('insertReview', newReview);
       document.getElementById("review-form").reset();
     }
   })
 
   Template.search.events({
-    'submit form': function (event) {
+    'submit form, button click': function (event) {
       event.preventDefault();
       var searchKey = event.target.searchKey.value;
       if (searchKey !== "") {
-        Session.set('filtered', 'yes');
-        Session.set('searchKey', event.target.searchKey.value);
+        Session.set('filtered', true);
+        Session.set('searchKey', searchKey);
       } else {
-        Session.set('filtered', 'no');
-      }
-      document.getElementById("search-form").reset();
-    },
-    'button click': function (event) {
-      event.preventDefault();
-      var searchKey = event.target.searchKey.value;
-      if (searchKey !== "") {
-        Session.set('filtered', 'yes');
-        Session.set('searchKey', event.target.searchKey.value);
-      } else {
-        Session.set('filtered', 'no');
+        Session.set('filtered', false);
       }
       document.getElementById("search-form").reset();
     }
@@ -55,18 +37,20 @@ if (Meteor.isClient) {
 
   Template.reviews.helpers({
     reviewsList: function () {
-      if (Session.get("filtered") === "yes") {
+      if (Session.get('filtered')) {
         var key = Session.get('searchKey');
-        return Reviews.find({company: key});
+        return Reviews.find({company: key}).fetch();
       } else {
-        return Reviews.find();
+        return Reviews.find().fetch();
       }
     }
   });
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // Meteor.methods
+  Meteor.methods({
+    insertReview: function (newReview) {
+      Reviews.insert(newReview);
+    }
   });
 }
