@@ -1,0 +1,16 @@
+<template name="reviews">
+  <h3 class="col-md-8 col-md-offset-2">Recent reviews</h3>
+  <ul>
+    {{#each reviewsList}}
+      <div class="panel panel-default col-md-8 col-md-offset-2">
+        <div class="panel-body">
+          <li><ul style="list-style-type: none">
+            <li class="review-title">{{company}}</li>
+            <li><u>Job:</u> {{job}}</li>
+            <li><u>Review:</u> {{review}}</li>
+          </ul></li>
+        </div>
+      </div>
+    {{/each}}
+  </ul>
+</template>

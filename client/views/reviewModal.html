@@ -1,0 +1,31 @@
+<template name="reviewModal">
+  <div id="submit-review" class="modal fade col-md-8 col-md-offset-2" role="dialog">
+    <div class="model-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Write a review</h4>
+        </div>
+        <div class="modal-body">
+          <form id="review-form">
+            <div class="form-group">
+              <label for="inputCompany">Company</label>
+              <input type="text" class="form-control" name="inputCompany" placeholder="Company">
+            </div>
+            <div class="form-group">
+              <label for="inputJob">Job</label>
+              <input type="text" class="form-control" name="inputJob" placeholder="Job">
+            </div>
+            <div class="form-group">
+              <label for="inputReview">Review</label>
+              <textarea class="form-control" name="inputReview" rows="3" placeholder="Write your review here"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-submit-review" type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
