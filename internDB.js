@@ -45,6 +45,14 @@ if (Meteor.isClient) {
       }
     }
   });
+
+  Template.companies.helpers({
+    companiesList: function () {
+      console.log("retrieving reviews for companies list");
+      return Reviews.find().fetch();
+      // eventually this should return a list sorted by rating
+    }
+  });
 }
 
 if (Meteor.isServer) {
