@@ -1,9 +1,16 @@
 // internDB.js
 
 Reviews = new Mongo.Collection('reviews');
+Companies = new Mongo.Collection('companies');
 
 if (Meteor.isClient) {
   Session.setDefault('filtered', false);
+
+  Template.nav.events({
+    'click .navbar-brand': function () {
+      Session.set('filtered', false);
+    }
+  })
 
   Template.reviewModal.events({
     'click #btn-submit-review': function () {
@@ -11,12 +18,22 @@ if (Meteor.isClient) {
     },
     'submit form': function (event) {
       event.preventDefault();
+      var companyName = event.target.inputCompany.value;
       var newReview = {
-        company: event.target.inputCompany.value,
+        company: companyName,
         job: event.target.inputJob.value,
         review: event.target.inputReview.value
       };
       Meteor.call('insertReview', newReview);
+      if (Companies.find({company: companyName}).fetch().length === 0) {
+        var newCompany = {
+          company: companyName,
+          reviews: 1
+        }
+        Meteor.call('insertCompany', newCompany);
+      } else {
+        Meteor.call('updateCompany', companyName);
+      }
       document.getElementById("review-form").reset();
     }
   })
@@ -48,9 +65,7 @@ if (Meteor.isClient) {
 
   Template.companies.helpers({
     companiesList: function () {
-      console.log("retrieving reviews for companies list");
-      return Reviews.find().fetch();
-      // eventually this should return a list sorted by rating
+      return Companies.find().fetch();
     }
   });
 }
@@ -59,6 +74,15 @@ if (Meteor.isServer) {
   Meteor.methods({
     insertReview: function (newReview) {
       Reviews.insert(newReview);
+    },
+    insertCompany: function (newCompany) {
+      Companies.insert(newCompany);
+    },
+    updateCompany: function (companyName) {
+      // increments the number of reviews associated with the company
+      Companies.update(
+        {company: companyName},
+        {$inc: {reviews: 1}});
     }
   });
 }
