@@ -25,9 +25,9 @@ if (Meteor.isClient) {
         review: event.target.inputReview.value
       };
       Meteor.call('insertReview', newReview);
-      if (Companies.find({company: companyName}).fetch().length === 0) {
+      if (Companies.find({name: companyName}).fetch().length === 0) {
         var newCompany = {
-          company: companyName,
+          name: companyName,
           reviews: 1
         }
         Meteor.call('insertCompany', newCompany);
@@ -56,9 +56,9 @@ if (Meteor.isClient) {
     reviewsList: function () {
       if (Session.get('filtered')) {
         var key = Session.get('searchKey');
-        return Reviews.find({company: key}).fetch();
+        return Reviews.find({company: key}, {$orderby: {_id: -1}}).fetch();
       } else {
-        return Reviews.find().fetch();
+        return Reviews.find({}, {$orderby: {_id: -1}}).fetch();
       }
     }
   });
@@ -81,7 +81,7 @@ if (Meteor.isServer) {
     updateCompany: function (companyName) {
       // increments the number of reviews associated with the company
       Companies.update(
-        {company: companyName},
+        {name: companyName},
         {$inc: {reviews: 1}});
     }
   });

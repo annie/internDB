@@ -137,3 +137,7 @@ li .text {
   font-weight: bold;
   color: #86BEE3;
 }
+
+.page-container {
+  margin-top: 150px;
+}
