@@ -4,6 +4,17 @@
     <ul>
       <li>Number of reviews: {{company.reviews}}</li>
     </ul>
-    {{> reviews}}
+    <ul>
+      {{#each reviews}}
+        <div class="panel panel-default col-md-8 col-md-offset-2">
+          <div class="panel-body">
+            <li><ul style="list-style-type: none">
+              <li><u>Job:</u> {{job}}</li>
+              <li><u>Review:</u> {{review}}</li>
+            </ul></li>
+          </div>
+        </div>
+      {{/each}}
+    </ul>
   </div>
 </template>

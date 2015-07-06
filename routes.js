@@ -14,7 +14,7 @@ Router.route('/about', function () {
   this.render('about');
 });
 
-Router.route('/company/name', function () {
+Router.route('/company/:name', function () {
   this.render('companyPage', {
     data: function () {
       var companyName = this.params.name;
