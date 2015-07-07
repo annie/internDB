@@ -3,6 +3,7 @@
     <h2>{{company.name}}</h2>
     <ul>
       <li>Number of reviews: {{company.reviews}}</li>
+      <li>Average rating: {{company.rating}}</li>
     </ul>
     <ul>
       {{#each reviews}}
@@ -10,6 +11,7 @@
           <div class="panel-body">
             <li><ul style="list-style-type: none">
               <li><u>Job:</u> {{job}}</li>
+              <li><u>Rating:</u> {{rating}}</li>
               <li><u>Review:</u> {{review}}</li>
             </ul></li>
           </div>

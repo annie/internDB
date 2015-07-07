@@ -19,20 +19,26 @@ if (Meteor.isClient) {
     'submit form': function (event) {
       event.preventDefault();
       var companyName = event.target.inputCompany.value;
+      var rating = parseInt(event.target.inputRating.value);
       var newReview = {
         company: companyName,
         job: event.target.inputJob.value,
+        rating: rating,
         review: event.target.inputReview.value
       };
       Meteor.call('insertReview', newReview);
       if (Companies.find({name: companyName}).fetch().length === 0) {
+        console.log("new company");
         var newCompany = {
           name: companyName,
-          reviews: 1
+          reviews: 1,
+          rating: rating
         }
+        console.log("company rating: " + newCompany.rating);
         Meteor.call('insertCompany', newCompany);
       } else {
-        Meteor.call('updateCompany', companyName);
+        console.log("updating company");
+        Meteor.call('updateCompany', companyName, rating);
       }
       document.getElementById("review-form").reset();
     }
@@ -78,11 +84,17 @@ if (Meteor.isServer) {
     insertCompany: function (newCompany) {
       Companies.insert(newCompany);
     },
-    updateCompany: function (companyName) {
+    updateCompany: function (companyName, newRating) {
       // increments the number of reviews associated with the company
+      var company = Companies.findOne({name: companyName});
+      console.log("company: " + company.name);
+      var oldAvg = company.rating;
+      console.log("old avg: " + oldAvg);
+      var newAvg = (newRating + oldAvg)/2;
+      console.log("new average: " + newAvg);
       Companies.update(
         {name: companyName},
-        {$inc: {reviews: 1}});
+        {$inc: {reviews: 1}, $set: {rating: newAvg}});
     }
   });
 }
