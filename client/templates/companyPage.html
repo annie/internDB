@@ -3,7 +3,8 @@
     <h2>{{company.name}}</h2>
     <ul>
       <li>Number of reviews: {{company.reviews}}</li>
-      <li>Average rating: {{company.rating}}</li>
+      <li>Average rating: {{company.ratingAvg}}</li>
+      <li>Average interview difficulty: {{company.interviewAvg}}</li>
     </ul>
     <ul>
       {{#each reviews}}
@@ -13,6 +14,7 @@
               <li><u>Job:</u> {{job}}</li>
               <li><u>Rating:</u> {{rating}}</li>
               <li><u>Review:</u> {{review}}</li>
+              <li><u>Interview Difficulty:</u> {{interviewRating}}</li>
             </ul></li>
           </div>
         </div>

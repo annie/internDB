@@ -16,29 +16,35 @@ if (Meteor.isClient) {
     'click #btn-submit-review': function () {
       $("#review-form").submit();
     },
+    'click .close': function () {
+      document.getElementById("review-form").reset();
+    },
     'submit form': function (event) {
       event.preventDefault();
       var companyName = event.target.inputCompany.value;
-      var rating = parseInt(event.target.inputRating.value);
+      var rating = parseFloat(event.target.inputRating.value);
+      var interview = parseFloat(event.target.interviewRating.value);
       var newReview = {
         company: companyName,
         job: event.target.inputJob.value,
         rating: rating,
-        review: event.target.inputReview.value
+        review: event.target.inputReview.value,
+        interviewRating: event.target.interviewRating.value,
+        interviewQuestions: event.target.interviewQuestions.value
       };
       Meteor.call('insertReview', newReview);
       if (Companies.find({name: companyName}).fetch().length === 0) {
-        console.log("new company");
         var newCompany = {
           name: companyName,
           reviews: 1,
-          rating: rating
+          ratingSum: rating,
+          ratingAvg: rating,
+          interviewSum: interview,
+          interviewAvg: interview
         }
-        console.log("company rating: " + newCompany.rating);
         Meteor.call('insertCompany', newCompany);
       } else {
-        console.log("updating company");
-        Meteor.call('updateCompany', companyName, rating);
+        Meteor.call('updateCompany', companyName, rating, interview);
       }
       document.getElementById("review-form").reset();
     }
@@ -84,17 +90,21 @@ if (Meteor.isServer) {
     insertCompany: function (newCompany) {
       Companies.insert(newCompany);
     },
-    updateCompany: function (companyName, newRating) {
+    updateCompany: function (companyName, newRating, newInterview) {
       // increments the number of reviews associated with the company
       var company = Companies.findOne({name: companyName});
-      console.log("company: " + company.name);
-      var oldAvg = company.rating;
-      console.log("old avg: " + oldAvg);
-      var newAvg = (newRating + oldAvg)/2;
-      console.log("new average: " + newAvg);
+      var numReviews = company.reviews += 1;
       Companies.update(
         {name: companyName},
-        {$inc: {reviews: 1}, $set: {rating: newAvg}});
+        {
+          $inc: {ratingSum: newRating, interviewSum: newInterview}, 
+          $set: {
+            reviews: numReviews,
+            ratingAvg: (parseFloat(company.ratingSum) + newRating)/numReviews, 
+            interviewAvg: (parseFloat(company.interviewSum) + newInterview)/numReviews
+          }
+        }
+      );
     }
   });
 }
