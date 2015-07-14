@@ -68,12 +68,21 @@ if (Meteor.isClient) {
     reviewsList: function () {
       if (Session.get('filtered')) {
         var key = Session.get('searchKey');
-        return Reviews.find({company: key}, {$orderby: {_id: -1}}).fetch();
+        // regex to make key case-sensitive and work with partial strings of any length
+        var regex = new RegExp(key.replace(/(\S+)/g, function(s) { return "\\b" + s + ".*" }).replace(/\s+/g, ''), "gi");
+        // finds matching company or matching job
+        var company = Reviews.find({company: regex}, {$orderby: {_id: -1}}).fetch();
+        var job = Reviews.find({job: regex}, {$orderby: {_id: -1}}).fetch();
+
+        // just going to return them both for now, but potentially a problem with duplicates
+        var total = company.concat(job);
+        return total;
       } else {
         return Reviews.find({}, {$orderby: {_id: -1}}).fetch();
       }
     }
   });
+
 
   Template.companies.helpers({
     companiesList: function () {
