@@ -10,8 +10,12 @@
             <li><u>Rating:</u> {{rating}}</li>
             <li><u>Review:</u> {{review}}</li>
             <li><u>Interview Difficulty:</u> {{interviewRating}}</li>
+            <li>{{upvotes}} out of {{votes}} people found this review helpful</li>
           </ul></li>
-          <div class="raty"></div>
+          <div align="right">
+          <a href="#" id="upvote">Upvote</a>
+          <a href="#" id="downvote">Downvote</a>
+          </div>
         </div>
       </div>
     {{/each}}

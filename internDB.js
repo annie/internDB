@@ -31,7 +31,9 @@ if (Meteor.isClient) {
         rating: rating,
         review: event.target.inputReview.value,
         interviewRating: event.target.interviewRating.value,
-        interviewQuestions: event.target.interviewQuestions.value
+        interviewQuestions: event.target.interviewQuestions.value,
+        upvotes: 0,
+        votes: 0
       };
       Meteor.call('insertReview', newReview);
       if (Companies.find({name: companyName}).fetch().length === 0) {
@@ -97,6 +99,14 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.reviews.events({
+    'click #upvote': function () {
+      Meteor.call('upvoteReview', this._id);
+    },
+    'click #downvote': function () {
+      Meteor.call('downvoteReview', this._id);
+    }
+  })
 
   Template.companies.helpers({
     companiesList: function () {
@@ -127,6 +137,18 @@ if (Meteor.isServer) {
             interviewAvg: (parseFloat(company.interviewSum) + newInterview)/numReviews
           }
         }
+      );
+    },
+    upvoteReview: function (reviewId) {
+      Reviews.update(
+        {_id: reviewId},
+        {$inc: {upvotes: 1, votes: 1}}
+      );
+    },
+    downvoteReview: function (reviewId) {
+      Reviews.update(
+        {_id: reviewId},
+        {$inc: {votes: 1}}
       );
     }
   });
