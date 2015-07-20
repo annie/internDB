@@ -3,9 +3,13 @@
     <div id="main-search" class="col-md-4 col-md-offset-4">
         <form id="search-form">
           <div class="input-group">
-            <input type="text" class="form-control" name="searchKey" placeholder="Search for a company or job">
+            <input type="text" class="form-control" name="searchKey" placeholder="Search by..." autocomplete="off">
             <span class="input-group-btn">
-              <button type="submit" class="btn btn-default glyphicon glyphicon-search"></button>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{category}} <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#" id="company">Company</a></li>
+                <li><a href="#" id="job">Job</a></li>
+              </ul>
             </span>
           </div>
         </form>

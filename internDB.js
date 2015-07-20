@@ -5,6 +5,7 @@ Companies = new Mongo.Collection('companies');
 
 if (Meteor.isClient) {
   Session.setDefault('filtered', false);
+  Session.setDefault('category', 'Company');
 
   Template.nav.events({
     'click .navbar-brand': function () {
@@ -48,10 +49,16 @@ if (Meteor.isClient) {
       }
       document.getElementById("review-form").reset();
     }
+  });
+
+  Template.search.helpers({
+    category: function() {
+      return Session.get('category');
+    }
   })
 
   Template.search.events({
-    'submit form, button click': function (event) {
+    'submit review-form': function (event) {
       event.preventDefault();
       var searchKey = event.target.searchKey.value;
       if (searchKey !== "") {
@@ -61,6 +68,12 @@ if (Meteor.isClient) {
         Session.set('filtered', false);
       }
       document.getElementById("search-form").reset();
+    },
+    'click #company': function () {
+      Session.set('category', 'Company');
+    },
+    'click #job': function () {
+      Session.set('category', 'Job');
     }
   });
 
@@ -71,13 +84,14 @@ if (Meteor.isClient) {
         // regex to make key case-sensitive and work with partial strings of any length
         var regex = new RegExp(key.replace(/(\S+)/g, function(s) { return "\\b" + s + ".*" }).replace(/\s+/g, ''), "gi");
         // finds matching company or matching job
-        var company = Reviews.find({company: regex}, {$orderby: {_id: -1}}).fetch();
-        var job = Reviews.find({job: regex}, {$orderby: {_id: -1}}).fetch();
-
-        // just going to return them both for now, but potentially a problem with duplicates
-        var total = company.concat(job);
-        return total;
+        if (Session.get('category') === 'Company') {
+          console.log('searching by company')
+          return Reviews.find({company: regex}, {$orderby: {_id: -1}}).fetch();
+        } else {
+          return Reviews.find({job: regex}, {$orderby: {_id: -1}}).fetch();
+        }
       } else {
+        console.log('returning all reviews')
         return Reviews.find({}, {$orderby: {_id: -1}}).fetch();
       }
     }
