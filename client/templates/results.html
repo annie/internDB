@@ -1,0 +1,10 @@
+<template name="results">
+  <div class="page-container">
+    <h3 class="col-md-8 col-md-offset-2">Search results</h3>
+    <ul>
+      {{#each resultsList}}
+        {{> review}}
+      {{/each}}
+    </ul>
+  </div>
+</template>

@@ -1,5 +1,5 @@
 Router.configure({
-  layoutTemplate: 'main'
+  layoutTemplate: 'layout'
 });
 
 Router.route('/', function () {
@@ -13,6 +13,16 @@ Router.route('/companies', function () {
 Router.route('/about', function () {
   this.render('about');
 });
+
+Router.route('/search/:searchKey', function () {
+  this.render('results', {
+    data: function () {
+      return {
+        searchKey: this.params.searchKey
+      }
+    }
+  });
+})
 
 Router.route('/company/:name', function () {
   this.render('companyPage', {

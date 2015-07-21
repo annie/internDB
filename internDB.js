@@ -60,7 +60,7 @@ if (Meteor.isClient) {
   })
 
   Template.search.events({
-    'submit review-form': function (event) {
+    'submit #search-form': function (event) {
       event.preventDefault();
       var searchKey = event.target.searchKey.value;
       if (searchKey !== "") {
@@ -70,6 +70,7 @@ if (Meteor.isClient) {
         Session.set('filtered', false);
       }
       document.getElementById("search-form").reset();
+      Router.go('/search/' + searchKey);
     },
     'click #company': function () {
       Session.set('category', 'Company');
@@ -79,34 +80,50 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.reviews.helpers({
-    reviewsList: function () {
-      if (Session.get('filtered')) {
-        var key = Session.get('searchKey');
-        // regex to make key case-sensitive and work with partial strings of any length
-        var regex = new RegExp(key.replace(/(\S+)/g, function(s) { return "\\b" + s + ".*" }).replace(/\s+/g, ''), "gi");
-        // finds matching company or matching job
-        if (Session.get('category') === 'Company') {
-          console.log('searching by company')
-          return Reviews.find({company: regex}, {$orderby: {_id: -1}}).fetch();
-        } else {
-          return Reviews.find({job: regex}, {$orderby: {_id: -1}}).fetch();
-        }
-      } else {
-        console.log('returning all reviews')
-        return Reviews.find({}, {$orderby: {_id: -1}}).fetch();
-      }
-    }
-  });
-
-  Template.reviews.events({
+  Template.review.events({
     'click #upvote': function () {
       Meteor.call('upvoteReview', this._id);
     },
     'click #downvote': function () {
       Meteor.call('downvoteReview', this._id);
     }
-  })
+  });
+
+  Template.review.helpers({
+    review: function () {
+      return {
+        job: this.job,
+        rating: this.rating,
+        review: this.review,
+        interviewRating: this.interviewRating,
+        upvotes: this.upvotes,
+        votes: this.votes
+      }
+    }
+  });
+
+  Template.reviews.helpers({
+    reviewsList: function () {
+      console.log('returning all reviews')
+      return Reviews.find({}, {$orderby: {_id: -1}}).fetch();
+    }
+  });
+
+  Template.results.helpers({
+    resultsList: function () {
+      var key = this.searchKey;
+      // regex to make key case-sensitive and work with partial strings of any length
+      var regex = new RegExp(key.replace(/(\S+)/g, function(s) { return "\\b" + s + ".*" }).replace(/\s+/g, ''), "gi");
+      // finds matching company or matching job
+      if (Session.get('category') === 'Company') {
+        console.log('searching by company');
+        return Reviews.find({company: regex}, {$orderby: {_id: -1}}).fetch();
+      } else {
+        console.log('searching by job');
+        return Reviews.find({job: regex}, {$orderby: {_id: -1}}).fetch();
+      }
+    }
+  });
 
   Template.companies.helpers({
     companiesList: function () {

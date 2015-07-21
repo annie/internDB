@@ -2,22 +2,7 @@
   <h3 class="col-md-8 col-md-offset-2">Recent reviews</h3>
   <ul>
     {{#each reviewsList}}
-      <div class="panel panel-default col-md-8 col-md-offset-2">
-        <div class="panel-body">
-          <li><ul style="list-style-type: none">
-            <li class="review-title"><a href="/company/{{company}}">{{company}}</a></li>
-            <li><u>Job:</u> {{job}}</li>
-            <li><u>Rating:</u> {{rating}}</li>
-            <li><u>Review:</u> {{review}}</li>
-            <li><u>Interview Difficulty:</u> {{interviewRating}}</li>
-            <li>{{upvotes}} out of {{votes}} people found this review helpful</li>
-          </ul></li>
-          <div align="right">
-          <a href="#" id="upvote">Upvote</a>
-          <a href="#" id="downvote">Downvote</a>
-          </div>
-        </div>
-      </div>
+      {{> review}}
     {{/each}}
   </ul>
 </template>

@@ -6,19 +6,10 @@
       <li>Average rating: {{company.ratingAvg}}</li>
       <li>Average interview difficulty: {{company.interviewAvg}}</li>
     </ul>
-    <ul>
-      {{#each reviews}}
-        <div class="panel panel-default col-md-8 col-md-offset-2">
-          <div class="panel-body">
-            <li><ul style="list-style-type: none">
-              <li><u>Job:</u> {{job}}</li>
-              <li><u>Rating:</u> {{rating}}</li>
-              <li><u>Review:</u> {{review}}</li>
-              <li><u>Interview Difficulty:</u> {{interviewRating}}</li>
-            </ul></li>
-          </div>
-        </div>
-      {{/each}}
-    </ul>
   </div>
+  <ul>
+  {{#each reviews}}
+    {{> review}}
+  {{/each}}
+  </ul>
 </template>

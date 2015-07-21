@@ -1,0 +1,18 @@
+<template name="review">
+    <div class="panel panel-default col-md-8 col-md-offset-2">
+      <div class="panel-body">
+        <li><ul style="list-style-type: none">
+          <li class="review-title"><a href="/company/{{company}}">{{company}}</a></li>
+          <li><u>Job:</u> {{review.job}}</li>
+          <li><u>Rating:</u> {{review.rating}}</li>
+          <li><u>Review:</u> {{review.review}}</li>
+          <li><u>Interview Difficulty:</u> {{review.interviewRating}}</li>
+          <li>{{review.upvotes}} out of {{review.votes}} people found this review helpful</li>
+        </ul></li>
+        <div align="right">
+        <a href="#" id="upvote">Upvote</a>
+        <a href="#" id="downvote">Downvote</a>
+        </div>
+      </div>
+    </div>
+</template>
