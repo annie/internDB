@@ -6,6 +6,7 @@ Companies = new Mongo.Collection('companies');
 if (Meteor.isClient) {
   Session.setDefault('filtered', false);
   Session.setDefault('category', 'Company');
+  Session.setDefault('sortBy', '');
 
   Template.nav.events({
     'click .navbar-brand': function () {
@@ -105,7 +106,7 @@ if (Meteor.isClient) {
   Template.reviews.helpers({
     reviewsList: function () {
       console.log('returning all reviews')
-      return Reviews.find({}, {$orderby: {_id: -1}}).fetch();
+      return Reviews.find({}, {$orderby: {_id: 1}}).fetch();
     }
   });
 
@@ -116,12 +117,52 @@ if (Meteor.isClient) {
       var regex = new RegExp(key.replace(/(\S+)/g, function(s) { return "\\b" + s + ".*" }).replace(/\s+/g, ''), "gi");
       // finds matching company or matching job
       if (Session.get('category') === 'Company') {
-        console.log('searching by company');
-        return Reviews.find({company: regex}, {$orderby: {_id: -1}}).fetch();
+        var reviews = Reviews.find({company: regex}, {$orderby: {_id: 1}}).fetch();
       } else {
-        console.log('searching by job');
-        return Reviews.find({job: regex}, {$orderby: {_id: -1}}).fetch();
+        var reviews = Reviews.find({job: regex}, {$orderby: {_id: 1}}).fetch();
       }
+
+      var sortBy = Session.get('sortBy');
+
+      if (sortBy === 'company') {
+        console.log("sort by company");
+        reviews.sort(function (a, b) {
+          return a.company.localeCompare(b.company);
+        });
+      }
+      if (sortBy === 'job') {
+        reviews.sort(function (a, b) {
+          return a.job.localeCompare(b.company);
+        });
+      }
+      // SORT BY HELPFULNESS IS NOT WORKING !!! 
+      if (sortBy === 'help') {
+        reviews.sort(function (a, b) {
+          return (b.upvotes/b.votes) - (a.upvotes/a.votes);
+        });
+      }
+      if (sortBy === 'rating') {
+        reviews.sort(function (a, b) {
+          return b.rating - a.rating;
+        });
+      }
+
+      return reviews;
+    }
+  });
+
+  Template.results.events({
+    'click #company': function () {
+      Session.set('sortBy', 'company');
+    },
+    'click #job': function () {
+      Session.set('sortBy', 'job');
+    },
+    'click #help': function () {
+      Session.set('sortBy', 'help');
+    },
+    'click #rating': function () {
+      Session.set('sortBy', 'rating');
     }
   });
 

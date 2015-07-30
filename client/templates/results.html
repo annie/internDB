@@ -1,10 +1,23 @@
 <template name="results">
-  <div class="page-container">
-    <h3 class="col-md-8 col-md-offset-2">Search results</h3>
-    <ul>
-      {{#each resultsList}}
-        {{> review}}
-      {{/each}}
-    </ul>
+  <div class="page-container col-md-8 col-md-offset-2">
+    <h3>Search results</h3>
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        Sort by
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li><a href="#" id="help">Most helpful</a></li>
+        <li><a href="#" id="rating">Top rated</a></li>
+        <li><a href="#" id="company">Company</a></li>
+        <li><a href="#" id="job">Job</a></li>
+      </ul>
+    </div>
+    <br>
   </div>
+  <ul>
+    {{#each resultsList}}
+      {{> review}}
+    {{/each}}
+  </ul>
 </template>
